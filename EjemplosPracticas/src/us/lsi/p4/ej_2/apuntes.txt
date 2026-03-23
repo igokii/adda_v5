@@ -1,0 +1,80 @@
+El estado del vértices según el enunciado (las restricciones) indican que se puede llegar a la solución del 
+problema en un vértice cualquiera si cumple lo que pide el enunciado
+
+Y supone un peso total según las aristas
+
+El peso de los conjuntos viene dado como un double
+
+Tenemos que hacer (MODELADO):
+  - Una Interfaz que extienda a virtual vertex
+  - Un Record que implemente la interfaz creada
+  - Un Record que implemente la interfaz de la Simple Edge Action
+  - Una Clase donde esté la heurística
+
+
+INTERFAZ QUE EXTIENDE VIRTUALVERTEX:
+
+    En la intefaz para el vértice destacamos que es de tipo genérica VirtualVertex<SubconjuntosVertex, SubconjuntosEdge, Integer> 
+  Si yo quisiera hacer un vértice, sería VerticeAgustin implements VirtualVertex< (nombreDelVértice) VerticeAgustin, (nombreDeAristas) AristaAgustin, Integer>
+  
+  Implementamos los métodos que vayamos a usar en la clase tests o en la heurística: 
+    - Un método para acceder al índice
+    - Un método para acceder a los vértices no cubiertos (usamos IntegerSet - tipo de us.lsi.commons con más propiedades - USAR ESTO)
+    - Un método factoría (public static) que DA EL VÉRTICE INICIAL. Hay que darle valores al vértice inicial según se haya planteado el modelado 
+    
+  Como este ejemplo es MENGUANTE, el conjunto inicial de propiedades estará lleno.
+  
+  
+RECORD QUE IMPLEMENTA LA INTERFAZ VIRTUALVERTEX:
+
+    Este se va a llamar SubconjuntosVertexI, pq implementa la interfaz. NO tenemos que implementar los métodos index y remaining.
+  El método de initial sobra porque ya se hizo en la interfaz.
+  El método of hay que hacerlo (para limpiar el código después) - para ellom hay que copiar el método initial y cambiarlo por of  
+  
+  Métodos a implementar:
+    - goal:  es PARAR avisa cuando hemos terminado de visitar todas las variables necesarias por un camino 
+      // por ej. si ya he llenado el presupuesto, no hay más alternativas
+    - goalHasSolution: es HAY SOLUCIÓN? indica si hay solución o no el PROBLEMA 
+      // útil cuando puede pasar que el ÚLTIMO vértice sea el que cumpla el objetivo
+    - actions: es un IF ELSE IF ELSE. Si se cumple el goal, actions está vacío. hay que mirar: 
+      incompatibilidades con los candidatos restantes, sueldos hacen que presupuesto se supere,
+      si el siguiente elemento va a dar solución... (todo según F.O.). ESQUEMA:
+       * Miro si estamos en goal
+       * Miro si queda 1 y miro si aporta solución pa cogerlo o descartarlo
+       * Miro si los posibles restantes futuros son útiles - si sí aporta, cógelo pero tmb descártalo: 
+         pq puede interesarme cogerlo pero si hay otro mejor puede interesarme descartarlo
+    - neighbor: solo hay que tener cuidado de que las propiedades que no sean de tipo básico deben COPIARSE y MODIFICARSE antes de generar el vecino
+      Lo que hace el método es crear el siguiente vértice (pq todavía no existe - empezamos con un grafo vacío). Primero se crea el vértice vecino y luego la arista
+    - edge: llama a factoría (record que implementa SimpleEdgeAction) of que recibe this, el neighbor(valorEntrada), valorEntrada
+
+
+RECORD QUE IMPLEMENTA LA INTERFAZ DE SIMPLE EDGE ACTION:
+	- método of: indica el peso de la arista y llama al constructor implícito (como es record, Java lo pone solo)
+ 
+ 
+HEURÍSTICA:
+	La heurística permite estimar qué es lo mejor que se puede obtener desde el punto actual (para saber si va a haber una solución mejor)
+  Lo ideal es quedarse un poco arriba del peso real si estamos maximizando - y un poco por debajo si estamos minimizando. 
+  Si se hace al revés, puede suceder que cuando queremos maximizarlo, nos dé un número más pequeño de la cuenta y descartarlo cuando PODÍA SER LA SOLUCIÓN
+  ES: de TODOS los vértices restantes, si cojo el de menor peso.. es mejor que la solución que tengo? (si minimizo)
+      de TODOS los vértices restantes, si cojo todos.. es mejor que la solución que tengo? (si maximizo)
+
+
+
+ \ ( o w o ) /
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
