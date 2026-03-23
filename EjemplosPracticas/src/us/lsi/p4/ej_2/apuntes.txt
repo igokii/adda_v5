@@ -56,8 +56,8 @@ HEURÍSTICA:
 	La heurística permite estimar qué es lo mejor que se puede obtener desde el punto actual (para saber si va a haber una solución mejor)
   Lo ideal es quedarse un poco arriba del peso real si estamos maximizando - y un poco por debajo si estamos minimizando. 
   Si se hace al revés, puede suceder que cuando queremos maximizarlo, nos dé un número más pequeño de la cuenta y descartarlo cuando PODÍA SER LA SOLUCIÓN
-  ES: de TODOS los vértices restantes, si cojo el de menor peso.. es mejor que la solución que tengo? (si minimizo)
-      de TODOS los vértices restantes, si cojo todos.. es mejor que la solución que tengo? (si maximizo)
+   * de TODOS los vértices restantes, si cojo el de menor peso.. es mejor que la solución que tengo? (si minimizo)
+   * de TODOS los vértices restantes, si cojo todos.. es mejor que la solución que tengo? (si maximizo)
 
 
 
